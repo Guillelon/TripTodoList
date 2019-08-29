@@ -12,7 +12,7 @@
     </div>
 </section>
 <div class="columns" style="padding-top: 25px">
-    <div class="column is-12">
+    <div class="column is-12 is-hidden-mobile">
         <div class="card events-card">
             <header class="card-header">
                 <p class="card-header-title">
@@ -23,7 +23,7 @@
                 <div class="content">
                     @if (ViewBag.Success != null)
                     {
-                        <article id="sucessMessage" class="message is-success">
+                        <article id="sucessMessage" class="sucessMessage message is-success">
                             <div class="message-body">
                                 <strong>TODO Item saved!</strong>
                             </div>
@@ -31,7 +31,7 @@
                     }
                     @if (ViewBag.WarningMessage != null)
                     {
-                        <article id="warningMessage" class="message is-warning">
+                        <article id="warningMessage" class="warningMessage message is-warning">
                             <div class="message-body">
                                 <strong>All fields are mandatory! </strong> Métete en el juego vale!
                             </div>
@@ -84,6 +84,26 @@
             </header>
             <div class="card-content" style="padding:25px">
                 <div class="content" style="font-size: 15px">
+                    <div class="is-hidden-tablet">
+                        @if (ViewBag.Success != null)
+                        {
+                            <article id="sucessMessage" class="sucessMessage message is-success">
+                                <div class="message-body">
+                                    <strong>TODO Item saved!</strong>
+                                </div>
+                            </article>
+                        }
+                        @if (ViewBag.WarningMessage != null)
+                        {
+                            <article id="warningMessage" class="warningMessage message is-warning">
+                                <div class="message-body">
+                                    <strong>All fields are mandatory! </strong> Métete en el juego vale!
+                                </div>
+                            </article>
+                        }
+                        <button class="button is-info" id="showModal">Add</button>
+                        <hr />
+                    </div>
                     <table class="table is-hoverable is-bordered">
                         <thead class="is-head-background-color">
                             <tr>
@@ -150,13 +170,70 @@
         </div>
     </div>
 </div>
+<div class="modal" style="padding-left:25px;padding-right:25px">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+
+        <div style="background-color:white;padding:25px">
+            <div>
+                <h3>Add New TODO Item</h3>
+            </div>
+            <hr />
+            <div>
+                @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <b>Title</b>
+                    @Html.TextBoxFor(m => m.NewTodoItem.Title, new { @class = "input", @placeholder = "Birras" })
+                    <br />
+                    <br />
+                    <b>Description</b>
+                    @Html.TextBoxFor(m => m.NewTodoItem.Description, new { @class = "input", @placeholder = "Ir a tomar birras pues coño" })
+                    <br />
+                    <br />
+                    <b>Type</b>
+                    <div class="control">
+                        <div class="select">
+                            @Html.DropDownListFor(model => model.NewTodoItem.Type, Model.PossibleTypes.Select(option => new SelectListItem
+                            {
+                               Text = Html.DisplayTextFor(_ => option).ToString(),
+                               Value = option.ToString(),
+                               Selected = false
+                           }), "Select Type", null)
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div>
+                        <input class="button is-info" type="submit" value="Add">
+                        <button id="modalClose" class="button is-light">Cancel</button>
+                    </div>
+                }
+            </div>
+            
+        </div>
+    </div>
+    <button class="modal-close"></button>
+</div>
 <script>
     $(document).ready(function () {
         //Messages time out to fade out
 
+        $("#showModal").click(function () {
+            $(".modal").addClass("is-active");
+        });
+
+        $(".modal-close").click(function () {
+            $(".modal").removeClass("is-active");
+        });
+
+        $('#modalClose').click(function () {
+            $(".modal").removeClass("is-active");
+        })
+
         setTimeout(function () {
-            $('#sucessMessage').hide();
-            $('#warningMessage').hide();
-        }, 4000);
+            $('.sucessMessage').hide("slide", {direction: "up"}, 500);
+            $('.warningMessage').hide("slide", {direction: "up"}, 500);
+        }, 3000);
     });
 </script>
