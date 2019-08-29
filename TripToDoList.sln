@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripToDoList", "TripToDoList\TripToDoList.csproj", "{F9808156-BD6D-44D5-9FB8-108577DAC046}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{48DA1A22-CE26-4AAA-BE0A-77FA3C4BD0BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{46BA937B-C0B5-4A79-87FC-DF5E79BEE14A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9808156-BD6D-44D5-9FB8-108577DAC046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9808156-BD6D-44D5-9FB8-108577DAC046}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9808156-BD6D-44D5-9FB8-108577DAC046}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9808156-BD6D-44D5-9FB8-108577DAC046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46BA937B-C0B5-4A79-87FC-DF5E79BEE14A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46BA937B-C0B5-4A79-87FC-DF5E79BEE14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46BA937B-C0B5-4A79-87FC-DF5E79BEE14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46BA937B-C0B5-4A79-87FC-DF5E79BEE14A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{46BA937B-C0B5-4A79-87FC-DF5E79BEE14A} = {48DA1A22-CE26-4AAA-BE0A-77FA3C4BD0BC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F916284-52B1-4F50-BACC-F99C0BA169C2}
+	EndGlobalSection
+EndGlobal
