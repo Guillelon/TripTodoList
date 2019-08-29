@@ -1,0 +1,21 @@
+﻿@model DAL.Models.TodoItem
+<div style="background-color:white;padding:25px">
+    <div>
+        <h3>@Model.Title</h3>
+    </div>
+    <hr />
+    <div>
+        <strong>Description</strong>
+        <p>@Model.Description</p>
+    </div>
+    <hr />
+    <div style="text-align:center">
+        <button onclick="closeDetailModal()" class="button is-light">Close</button>
+    </div>
+</div>
+
+<script>
+    function closeDetailModal() {
+        $("#detailModal").removeClass("is-active");
+    }
+</script>

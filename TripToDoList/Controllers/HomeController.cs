@@ -46,8 +46,12 @@ namespace TripToDoList.Controllers
                 viewmodel.TodoItems = _repo.GetTodoItems();
                 return View(viewmodel); ;
             }
-            
-            
+        }
+
+        public ActionResult Details(int id)
+        {
+            var item = _repo.GetTodoItem(id);
+            return PartialView("_TodoItemDetail", item);
         }
     }
 }

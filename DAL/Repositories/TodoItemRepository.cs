@@ -31,5 +31,10 @@ namespace DAL.Repositories
             _context.SaveChanges();
             return model;
         }
+
+        public TodoItem GetTodoItem(int id)
+        {
+            return _context.TodoItem.Where(i => i.Id == id).FirstOrDefault();
+        }
     }
 }
