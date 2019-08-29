@@ -24,6 +24,8 @@ namespace TripToDoList.Controllers
             viewmodel.NewTodoItem = new TodoItem();
 
             viewmodel.TodoItems = _repo.GetTodoItems();
+            if (TempData["Success"] !=null)
+                ViewBag.Success = "yes";
             return View(viewmodel);
         }
 
@@ -31,19 +33,21 @@ namespace TripToDoList.Controllers
         public ActionResult Index(TodoItem NewTodoItem)
         {
             var viewmodel = new TodoItemsDashboardViewModel();
-            viewmodel.TodoItems = _repo.GetTodoItems();
-
             if (NewTodoItem.Title !=null && NewTodoItem.Description != null && NewTodoItem.Type != null)
             {
                 _repo.AddTodoItem(NewTodoItem);
-                ViewBag.Success = "yes";
+                TempData["Success"] = "yes";
+                return RedirectToAction("Index");
             }
             else
             {
                 viewmodel.NewTodoItem = NewTodoItem;
                 ViewBag.WarningMessage = "yes";
+                viewmodel.TodoItems = _repo.GetTodoItems();
+                return View(viewmodel); ;
             }
-            return View(viewmodel); ;
+            
+            
         }
     }
 }
