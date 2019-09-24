@@ -25,7 +25,7 @@ namespace TripToDoList.Controllers
 
             viewmodel.TodoItems = _repo.GetTodoItems();
             if (TempData["Success"] !=null)
-                ViewBag.Success = "yes";
+                ViewBag.Success = TempData["Success"];
             return View(viewmodel);
         }
 
@@ -36,7 +36,7 @@ namespace TripToDoList.Controllers
             if (NewTodoItem.Title !=null && NewTodoItem.Description != null && NewTodoItem.Type != null)
             {
                 _repo.AddTodoItem(NewTodoItem);
-                TempData["Success"] = "yes";
+                TempData["Success"] = "TODO item saved!";
                 return RedirectToAction("Index");
             }
             else
@@ -52,6 +52,20 @@ namespace TripToDoList.Controllers
         {
             var item = _repo.GetTodoItem(id);
             return PartialView("_TodoItemDetail", item);
+        }
+
+        public ActionResult MarkAsDone(int id)
+        {
+            _repo.MarkAsDone(id);
+            TempData["Success"] = "Item Marked as done";
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult MarkTodo(int id)
+        {
+            _repo.MarkTODO(id);
+            TempData["Success"] = "Item Marked TODO";
+            return RedirectToAction("Index");
         }
     }
 }

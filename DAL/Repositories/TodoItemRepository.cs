@@ -36,5 +36,29 @@ namespace DAL.Repositories
         {
             return _context.TodoItem.Where(i => i.Id == id).FirstOrDefault();
         }
+
+        public TodoItem MarkAsDone(int id)
+        {
+            var item = _context.TodoItem.Where(i => i.Id == id).FirstOrDefault();
+            if (item != null)
+            {
+                item.Done = true;
+                _context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+            }
+            return item;
+        }
+
+        public TodoItem MarkTODO(int id)
+        {
+            var item = _context.TodoItem.Where(i => i.Id == id).FirstOrDefault();
+            if (item != null)
+            {
+                item.Done = false;
+                _context.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+            }
+            return item;
+        }
     }
 }

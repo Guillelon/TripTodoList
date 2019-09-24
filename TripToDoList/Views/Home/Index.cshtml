@@ -25,7 +25,7 @@
                     {
                         <article id="sucessMessage" class="sucessMessage message is-success">
                             <div class="message-body">
-                                <strong>TODO Item saved!</strong>
+                                <strong>@ViewBag.Success</strong>
                             </div>
                         </article>
                     }
@@ -116,10 +116,10 @@
                         <tbody>
                             @foreach (var item in Model.TodoItems)
                             {
-                                <tr>
+                                <tr @if (item.Done) { <text>class="is-selected"</text> }>
                                     <td style="text-align: center">
                                         <p style="font-size: 20px">
-                                            <strong style="font-weight:bold;color:cadetblue">
+                                            <strong style="font-weight:bold;color:@if (item.Done) { <text>white</text> }else{ <text>cadetblue</text> }">
                                                 @if (item.Type == TripToDoList.ViewModels.TodoItemTypes.Food)
                                                 {
                                                     <i class="fa fa-pizza-slice"></i>
@@ -153,9 +153,9 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (item.Description.Length > 105)
+                                        @if (item.Description.Length > 75)
                                         {
-                                            <text>@item.Description.Substring(0, 105)</text>
+                                            <text>@item.Description.Substring(0, 75)</text>
                                         }
                                         else
                                         {
@@ -180,10 +180,10 @@
                         <tbody>
                             @foreach (var item in Model.TodoItems)
                             {
-                                <tr id="@item.Id" class="detail-button">
+                                <tr id="@item.Id" class="detail-button @if (item.Done) { <text>is-selected</text> }">
                                     <td style="text-align: center">
                                         <p style="font-size: 20px">
-                                            <strong style="font-weight:bold;color:cadetblue">
+                                            <strong style="font-weight:bold;color:@if (item.Done) { <text>white</text> }else{ <text>cadetblue</text> }">
                                                 @if (item.Type == TripToDoList.ViewModels.TodoItemTypes.Food)
                                                 {
                                                     <i class="fa fa-pizza-slice"></i>
@@ -207,9 +207,9 @@
                                         </p>
                                     </td>
                                     <td>
-                                        @if (item.Title.Length > 25)
+                                        @if (item.Title.Length > 10)
                                         {
-                                            <text>@item.Title.Substring(0, 25)</text>
+                                            <text>@item.Title.Substring(0, 10)</text>
                                         }
                                         else
                                         {
@@ -217,9 +217,9 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (item.Description.Length > 105)
+                                        @if (item.Description.Length > 50)
                                         {
-                                            <text>@item.Description.Substring(0, 105)</text>
+                                            <text>@item.Description.Substring(0, 50)</text>
                                         }
                                         else
                                         {

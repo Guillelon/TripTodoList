@@ -1,4 +1,5 @@
 ﻿@model DAL.Models.TodoItem
+
 <div style="background-color:white;padding:25px">
     <div>
         <h3>@Model.Title</h3>
@@ -9,8 +10,17 @@
         <p>@Model.Description</p>
     </div>
     <hr />
-    <div style="text-align:center">
+    <div style="text-align:right">
         <button onclick="closeDetailModal()" class="button is-light">Close</button>
+        &nbsp;&nbsp;
+        @if (!Model.Done)
+        {
+            <button id="markAsDone" class="button is-info"><i class="fas fa-check"></i>&nbsp;Mark as Done</button>
+        }
+        else
+        {
+            <button id="markTodo" class="button is-warning"><i class="fas fa-check"></i>&nbsp;Mark TODO</button>
+        }
     </div>
 </div>
 
@@ -18,4 +28,12 @@
     function closeDetailModal() {
         $("#detailModal").removeClass("is-active");
     }
+
+    $("#markAsDone").click(function () {
+        window.location.href = "/Home/MarkAsDone/" +@Model.Id;
+    });
+
+    $("#markTodo").click(function () {
+        window.location.href = "/Home/MarkTodo/" +@Model.Id;
+    });
 </script>

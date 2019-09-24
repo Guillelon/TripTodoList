@@ -60,6 +60,10 @@
     <Compile Include="Migrations\201908282149134_AddingTrip.Designer.cs">
       <DependentUpon>201908282149134_AddingTrip.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909241144264_AddingDoneToTheList.cs" />
+    <Compile Include="Migrations\201909241144264_AddingDoneToTheList.Designer.cs">
+      <DependentUpon>201909241144264_AddingDoneToTheList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\TodoItem.cs" />
     <Compile Include="Models\Trip.cs" />
@@ -80,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908282149134_AddingTrip.resx">
       <DependentUpon>201908282149134_AddingTrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909241144264_AddingDoneToTheList.resx">
+      <DependentUpon>201909241144264_AddingDoneToTheList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
