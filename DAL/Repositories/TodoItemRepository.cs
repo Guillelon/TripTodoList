@@ -16,17 +16,34 @@ namespace DAL.Repositories
             _context = new TripToDoListDatabaseContext();
         }
 
-        public IList<TodoItem> GetTodoItems()
+        public IList<Trip> GetTrips()
         {
-            var todoItems = _context.TodoItem.OrderByDescending(t => t.Id).ToList();
+            var trips = _context.Trip.ToList();
+            return trips;
+        }
+
+        public Trip AddTrip(Trip trip)
+        {
+            _context.Trip.Add(trip);
+            _context.SaveChanges();
+            return trip;    
+        }
+
+        public Trip GetTrip(int id)
+        {
+            var trip = _context.Trip.Where(t => t.Id == id).FirstOrDefault();
+            return trip;
+        }
+
+        public IList<TodoItem> GetTodoItems(int id)
+        {
+            var todoItems = _context.TodoItem.Where(t=> t.TripId == id).OrderByDescending(t => t.Id).ToList();
             return todoItems;
         }
 
         public TodoItem AddTodoItem(TodoItem model)
         {
-            var trip = _context.Trip.FirstOrDefault();
             model.CreatedDate = DateTime.Now;
-            model.TripId = trip.Id;
             _context.TodoItem.Add(model);
             _context.SaveChanges();
             return model;

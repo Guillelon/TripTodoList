@@ -20,31 +20,58 @@ namespace TripToDoList.Controllers
 
         public ActionResult Index()
         {
-            var viewmodel = new TodoItemsDashboardViewModel();
-            viewmodel.NewTodoItem = new TodoItem();
-
-            viewmodel.TodoItems = _repo.GetTodoItems();
+            var trips = _repo.GetTrips();
+            var viewModel = new TripViewModels();
+            viewModel.NewTrip = new Trip();
+            viewModel.Trips = trips;
             if (TempData["Success"] !=null)
                 ViewBag.Success = TempData["Success"];
+            if (TempData["WarningMessage"] != null)
+                ViewBag.WarningMessage = TempData["WarningMessage"];
+            return View(viewModel);
+        }
+
+        public ActionResult AddTrip(Trip NewTrip)
+        {
+            if(NewTrip.Name != null && NewTrip.Name.Length > 0)
+            {
+                _repo.AddTrip(NewTrip);
+                TempData["Success"] = "Trip was saved!";
+                return RedirectToAction("Trip", new { id = NewTrip.Id });
+            }
+            {
+                TempData["WarningMessage"] = "yes";
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult Trip(int id)
+        {
+            var viewmodel = new TodoItemsDashboardViewModel();
+            viewmodel.NewTodoItem = new TodoItem() { TripId = id };
+            viewmodel.Trip = _repo.GetTrip(id);
+            viewmodel.TodoItems = _repo.GetTodoItems(id);
+            if (TempData["Success"] != null)
+                ViewBag.Success = TempData["Success"];
+            if (TempData["WarningMessage"] != null)
+                ViewBag.WarningMessage = TempData["WarningMessage"];
             return View(viewmodel);
         }
 
         [HttpPost]
-        public ActionResult Index(TodoItem NewTodoItem)
+        public ActionResult AddTodoItem(TodoItem NewTodoItem)
         {
             var viewmodel = new TodoItemsDashboardViewModel();
             if (NewTodoItem.Title !=null && NewTodoItem.Description != null && NewTodoItem.Type != null)
             {
                 _repo.AddTodoItem(NewTodoItem);
-                TempData["Success"] = "TODO item saved!";
-                return RedirectToAction("Index");
+                TempData["Success"] = "Awesome thing TODO saved!";
+                return RedirectToAction("Trip", new { id = NewTodoItem.TripId });
             }
             else
             {
-                viewmodel.NewTodoItem = NewTodoItem;
-                ViewBag.WarningMessage = "yes";
-                viewmodel.TodoItems = _repo.GetTodoItems();
-                return View(viewmodel); ;
+                TempData["WarningMessage"] = "yes";
+                return RedirectToAction("Trip", new { id = NewTodoItem.TripId });
             }
         }
 
@@ -56,16 +83,16 @@ namespace TripToDoList.Controllers
 
         public ActionResult MarkAsDone(int id)
         {
-            _repo.MarkAsDone(id);
+            var item = _repo.MarkAsDone(id);
             TempData["Success"] = "Item Marked as done";
-            return RedirectToAction("Index");
+            return RedirectToAction("Trip", new { id = item.TripId });
         }
 
         public ActionResult MarkTodo(int id)
         {
-            _repo.MarkTODO(id);
+            var item = _repo.MarkTODO(id);
             TempData["Success"] = "Item Marked TODO";
-            return RedirectToAction("Index");
+            return RedirectToAction("Trip", new { id = item.TripId });
         }
     }
 }

@@ -1,173 +1,69 @@
-﻿@model TripToDoList.ViewModels.TodoItemsDashboardViewModel
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
+﻿@model TripToDoList.ViewModels.TripViewModels
+<section class="hero is-info is-small">
+    <div class="hero-body" style="padding-left:5px; padding-right:5px">
         <div class="container">
-            <h1 class="title">
-                Tulusito 2020
-            </h1>
-            <h2 class="subtitle">
-                Back again in this town for a third time!
-            </h2>
-        </div>
-    </div>
-</section>
-<div class="columns" style="padding-top: 25px">
-    <div class="column is-12 is-hidden-mobile">
-        <div class="card events-card">
-            <header class="card-header">
-                <p class="card-header-title">
-                    Add TODO Item
-                </p>
-            </header>
-            <div class="card-content">
-                <div class="content">
-                    @if (ViewBag.Success != null)
-                    {
-                        <article id="sucessMessage" class="sucessMessage message is-success">
-                            <div class="message-body">
-                                <strong>@ViewBag.Success</strong>
-                            </div>
-                        </article>
-                    }
-                    @if (ViewBag.WarningMessage != null)
-                    {
-                        <article id="warningMessage" class="warningMessage message is-warning">
-                            <div class="message-body">
-                                <strong>All fields are mandatory! </strong> Métete en el juego vale!
-                            </div>
-                        </article>
-                    }
-                    @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <div class="columns">
-                            <div class="column is-3">
-                                <b>Title</b>
-                                @Html.TextBoxFor(m => m.NewTodoItem.Title, new { @class = "input", @placeholder = "Birras" })
-
-                            </div>
-                            <div class="column is-5">
-                                <b>Description</b>
-                                @Html.TextBoxFor(m => m.NewTodoItem.Description, new { @class = "input", @placeholder = "Ir a tomar birras pues coño" })
-                            </div>
-                            <div class="column is-2">
-                                <b>Type</b>
-                                <br />
-                                <div class="control">
-                                    <div class="select">
-                                        @Html.DropDownListFor(model => model.NewTodoItem.Type, Model.PossibleTypes.Select(option => new SelectListItem
-                                        {
-                                           Text = Html.DisplayTextFor(_ => option).ToString(),
-                                           Value = option.ToString(),
-                                           Selected = false
-                                       }), "Select Type", null)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-1" style="padding-top:32px">
-                                <input class="button is-info" type="submit" value="Add">
-                            </div>
-                        </div>
-                    }
+            <div style="padding-top:25px;padding-right:35px;padding-left:35px" class="columns is-desktop is-hidden-mobile ">
+                <div class="column is-6">
+                    <img src="~/Images/Logo.png" width="75%" />
+                </div>
+                <div class="column is-6" style="text-align:right">
+                    <img src="~/Images/Us.png" width="25%" />
+                </div>
+            </div>
+            <div class="columns is-mobile is-hidden-desktop">
+                <div class="column is-7">
+                    <img src="~/Images/Logo.png" width="700px" />
+                </div>
+                <div class="column is-5" style="text-align:right">
+                    <img src="~/Images/Us.png" width="35%" />
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="columns">
+</section>
+<div class="columns" style="padding-top: 25px">
     <div class="column is-12">
-        <div class="card">
+        <div class="card events-card">
             <header class="card-header">
                 <p class="card-header-title">
-                    TODO Items
+                    Trips
                 </p>
+                <div style="padding-top:7px;padding-right:7px">
+                    <button id="showModal" class="button is-info">Add</button>
+                </div>
             </header>
             <div class="card-content" style="padding:25px">
                 <div class="content" style="font-size: 15px">
-                    <div class="is-hidden-tablet">
-                        @if (ViewBag.Success != null)
-                        {
-                            <article id="sucessMessage" class="sucessMessage message is-success">
-                                <div class="message-body">
-                                    <strong>TODO Item saved!</strong>
-                                </div>
-                            </article>
-                        }
-                        @if (ViewBag.WarningMessage != null)
-                        {
-                            <article id="warningMessage" class="warningMessage message is-warning">
-                                <div class="message-body">
-                                    <strong>All fields are mandatory! </strong> Métete en el juego vale!
-                                </div>
-                            </article>
-                        }
-                        <button class="button is-info" id="showModal">Add</button>
-                        <hr />
-                    </div>
-                    <div>
-                        <strong>Total Items: </strong> @Model.TodoItems.Count ||
-                        <strong>Checked Items: </strong> @Model.TodoItems.Where(i => i.Done).Count()  
-                    </div>
+                    @if (ViewBag.WarningMessage != null)
+                    {
+                        <article id="warningMessage" class="warningMessage message is-warning">
+                            <div class="message-body">
+                                <strong>Trip needs a name! </strong> Métete en el juego vale!
+                            </div>
+                        </article>
+                    }
                     <table class="table is-hoverable is-bordered is-hidden-mobile">
                         <thead class="is-head-background-color">
                             <tr>
-                                <th></th>
-                                <th>Title</th>
+                                <th>Name</th>
                                 <th>Description</th>
+                                <th>Tasks</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.TodoItems)
+                            @foreach (var item in Model.Trips)
                             {
-                                <tr @if (item.Done) { <text> class="is-selected" </text> }>
-                                    <td style="text-align: center">
-                                        <p style="font-size: 20px">
-                                            <strong style="font-weight:bold;color:@if (item.Done) { <text>white</text> }else{ <text>cadetblue</text> }">
-                                                @if (item.Type == TripToDoList.ViewModels.TodoItemTypes.Food)
-                                                {
-                                                    <i class="fa fa-pizza-slice"></i>
-                                                }
-                                                else if (item.Type == TripToDoList.ViewModels.TodoItemTypes.Entertainment)
-                                                {
-
-                                                    <i class="fas fa-tv"></i>
-                                                }
-                                                else if (item.Type == TripToDoList.ViewModels.TodoItemTypes.NightOut)
-                                                {
-
-                                                    <i class="fas fa-glass-martini-alt"></i>
-                                                }
-                                                else if (item.Type == TripToDoList.ViewModels.TodoItemTypes.SexyTime)
-                                                {
-
-                                                    <i class="fas fa-venus-mars"></i>
-                                                }
-                                            </strong>
-                                        </p>
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        @item.Description
                                     </td>
                                     <td>
-                                        @if (item.Title.Length > 25)
-                                        {
-                                            <text>@item.Title.Substring(0, 25)</text>
-                                        }
-                                        else
-                                        {
-                                            @item.Title
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (item.Description.Length > 75)
-                                        {
-                                            <text>@item.Description.Substring(0, 75)</text>
-                                        }
-                                        else
-                                        {
-                                            @item.Description
-                                        }
+                                        @item.TodoItems.Count
                                     </td>
                                     <td style="text-align:center">
-                                        <button id="@item.Id" class="button is-info is-small detail-button">Details</button>
+                                        <a class="button is-info" href="/Home/Trip/@item.Id">Tasks</a>
                                     </td>
                                 </tr>
                             }
@@ -176,59 +72,26 @@
                     <table class="table is-hoverable is-bordered is-hidden-tablet">
                         <thead class="is-head-background-color">
                             <tr>
-                                <th></th>
-                                <th>Title</th>
+                                <th>Name</th>
                                 <th>Description</th>
+                                <th>Tasks</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.TodoItems)
+                            @foreach (var item in Model.Trips)
                             {
-                                <tr id="@item.Id" class="detail-button @if (item.Done) { <text>is-selected</text> }">
-                                    <td style="text-align: center">
-                                        <p style="font-size: 20px">
-                                            <strong style="font-weight:bold;color:@if (item.Done) { <text>white</text> }else{ <text>cadetblue</text> }">
-                                                @if (item.Type == TripToDoList.ViewModels.TodoItemTypes.Food)
-                                                {
-                                                    <i class="fa fa-pizza-slice"></i>
-                                                }
-                                                else if (item.Type == TripToDoList.ViewModels.TodoItemTypes.Entertainment)
-                                                {
-
-                                                    <i class="fas fa-tv"></i>
-                                                }
-                                                else if (item.Type == TripToDoList.ViewModels.TodoItemTypes.NightOut)
-                                                {
-
-                                                    <i class="fas fa-glass-martini-alt"></i>
-                                                }
-                                                else if (item.Type == TripToDoList.ViewModels.TodoItemTypes.SexyTime)
-                                                {
-
-                                                    <i class="fas fa-venus-mars"></i>
-                                                }
-                                            </strong>
-                                        </p>
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        @item.Description
                                     </td>
                                     <td>
-                                        @if (item.Title.Length > 10)
-                                        {
-                                            <text>@item.Title.Substring(0, 10)</text>
-                                        }
-                                        else
-                                        {
-                                            @item.Title
-                                        }
+                                        @item.TodoItems.Count
                                     </td>
-                                    <td>
-                                        @if (item.Description.Length > 50)
-                                        {
-                                            <text>@item.Description.Substring(0, 50)</text>
-                                        }
-                                        else
-                                        {
-                                            @item.Description
-                                        }
+
+                                    <td style="text-align:center">
+                                        <a class="button is-info" href="/Home/Trip/@item.Id">Tasks</a>
                                     </td>
                                 </tr>
                             }
@@ -239,6 +102,7 @@
         </div>
     </div>
 </div>
+
 <div id="addModal" class="modal" style="padding-left:25px;padding-right:25px">
     <div class="modal-background"></div>
     <div class="modal-content">
@@ -249,33 +113,19 @@
             </div>
             <hr />
             <div>
-                @using (Html.BeginForm("Index", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                @using (Html.BeginForm("AddTrip", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    <b>Title</b>
-                    @Html.TextBoxFor(m => m.NewTodoItem.Title, new { @class = "input", @placeholder = "Birras" })
+                    <b>Name</b>
+                    @Html.TextBoxFor(m => m.NewTrip.Name, new { @class = "input", @placeholder = "Bora Bora" })
                     <br />
                     <br />
                     <b>Description</b>
-                    @Html.TextBoxFor(m => m.NewTodoItem.Description, new { @class = "input", @placeholder = "Ir a tomar birras pues coño" })
-                    <br />
-                    <br />
-                    <b>Type</b>
-                    <div class="control">
-                        <div class="select">
-                            @Html.DropDownListFor(model => model.NewTodoItem.Type, Model.PossibleTypes.Select(option => new SelectListItem
-                            {
-                               Text = Html.DisplayTextFor(_ => option).ToString(),
-                               Value = option.ToString(),
-                               Selected = false
-                           }), "Select Type", null)
-                        </div>
-                    </div>
+                    @Html.TextBoxFor(m => m.NewTrip.Description, new { @class = "input", @placeholder = "Mega escapada a Bora Bora" })
                     <br />
                     <br />
                     <div>
                         <input class="button is-info" type="submit" value="Add">
-                        <button id="modalClose" class="button is-light">Cancel</button>
                     </div>
                 }
             </div>
@@ -284,28 +134,9 @@
     </div>
     <button class="modal-close"></button>
 </div>
-<div id="detailModal" class="modal" style="padding-left:25px;padding-right:25px">
-    <div class="modal-background"></div>
-    <div id="detailModalContent" class="modal-content">
 
-    </div>
-</div>
 <script>
     $(document).ready(function () {
-        //Messages time out to fade out
-
-        $(".detail-button").click(function () {
-            var id = $(this).attr("id");
-            $.ajax({
-                url: '/Home/Details?id=' + id,
-                type: 'GET',
-                success: function (data) {
-                    $('#detailModalContent').html(data);
-                    $("#detailModal").addClass("is-active");
-                }
-            });
-        });
-
         $("#showModal").click(function () {
             $("#addModal").addClass("is-active");
         });
